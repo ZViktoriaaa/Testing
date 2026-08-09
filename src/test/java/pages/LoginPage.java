@@ -1,33 +1,42 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import user.User;
 
 public class LoginPage extends BasePage {
-    private final By loginInput = By.xpath("//*[@placeholder='Username']");
-    private final By passwordInput = By.xpath("//*[@placeholder='Password']");
-    private final By loginButton = By.cssSelector("#login-button");
-    private final By error = By.cssSelector("[data-test='error']");
+    private final By loginInput = By.cssSelector("#user-name");
+    private final By passwordInput = By.cssSelector("#password");
+    private final By loginBtn = By.cssSelector("#login-button");
+    private final By errorMessage = dataTest("error");
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
+    @Step("Открытие сайта SauceDemo")
     public void open() {
         driver.get(BASE_URL);
     }
 
-    public void login(final String userName, final String password) {
-        driver.findElement(loginInput).sendKeys(userName);
-        driver.findElement(passwordInput).sendKeys(password);
-        driver.findElement(loginButton).click();
+    @Step("Авторизуемся")
+    public void login(User user) {
+        driver.findElement(loginInput).sendKeys(user.getLogin());
+        driver.findElement(passwordInput).sendKeys(user.getPassword());
+        driver.findElement(loginBtn).click();
     }
 
+    @Step("Проверяем отображение сообщения об ошибке")
     public boolean isErrorDisplayed() {
-        return driver.findElement(error).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        return driver.findElement(errorMessage).isDisplayed();
     }
 
-    public String getErrorText() {
-        return driver.findElement(error).getText();
+    @Step("Получаем текст сообщения об ошибке")
+    public String getErrorMessage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        return driver.findElement(errorMessage).getText();
     }
 }
