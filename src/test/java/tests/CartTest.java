@@ -1,31 +1,32 @@
 package tests;
 
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 import static enums.ProductNaming.*;
-import static enums.TitleNaming.PRODUCTS;
+import static enums.TitleNaming.CART;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static user.UserFactory.withAdminPermission;
 
-public class ProductsTest extends BaseTest {
+public class CartTest extends BaseTest {
     List<String> goodsList =
             List.of(BACKPACK.getDisplayName(), BIKE.getDisplayName(), TSHIRT.getDisplayName());
 
-
+    @Story("Проверяем содержимое корзины")
     @Test
     public void checkGoodsAdded() {
         loginPage.open();
         loginPage.login(withAdminPermission());
-        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName());
 
         for (String goodName : goodsList) {
             productsPage.addToCart(goodName);
         }
-
-        productsPage.addToCart(2);
-        assertEquals(productsPage.checkCounterValue(), 4);
-        assertEquals(productsPage.checkCounterColor(), "rgba(226, 35, 26, 1)");
+        productsPage.switchToCart();
+        assertEquals(productsPage.getNamePage(), CART.getDisplayName());
+        assertFalse(cartPage.getProductsNames().isEmpty());
+        assertEquals(cartPage.getProductsNames().size(), 3);
     }
 }
