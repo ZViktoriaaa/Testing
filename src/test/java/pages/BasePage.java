@@ -22,14 +22,14 @@ public class BasePage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
-    @Step("Открываем страницу")
+    protected By dataTest(String value) {
+        return By.cssSelector(String.format("[data-test='%s']", value));
+    }
+
+    @Step("Проверяем, что страница открыта")
     public boolean pageIsOpen() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(pageName));
         return driver.findElement(pageName).isDisplayed();
-    }
-
-    protected By dataTest(String value) {
-        return By.cssSelector(String.format("[data-test='%s']", value));
     }
 
     @Step("Получаем название страницы")

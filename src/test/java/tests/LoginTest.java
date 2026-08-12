@@ -1,6 +1,6 @@
 package tests;
 
-import io.qameta.allure.Step;
+import io.qameta.allure.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import user.User;
@@ -11,20 +11,23 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static user.UserFactory.*;
 
+@Epic("Авторизация")
+@Feature("Вход в систему")
 public class LoginTest extends BaseTest {
 
-    @Step("Корректная авторизация")
+    @Story("Успешная авторизация")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Проверка авторизации с корректными учётными данныи")
     @Test
     public void correctLogin() {
         loginPage.open();
         loginPage.login(withAdminPermission());
 
         assertTrue(productsPage.pageIsOpen());
-        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName(),
-                "Name of the page doesn't correspond to the expected");
+        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName());
     }
 
-    @DataProvider()
+    @DataProvider(name = "loginData")
     public Object[][] loginData() {
         return new Object[][]{
                 {withIncorrectPermission(), WRONG_CREDENTIALS.getMessage()},
@@ -34,7 +37,9 @@ public class LoginTest extends BaseTest {
         };
     }
 
-    @Step("Некорректная авторизация")
+    @Story("некорректная авторизация")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверка ошибок при вводе некорректных учетных данных")
     @Test(dataProvider = "loginData")
     public void incorrectLogin(User user, String errorMsg) {
         loginPage.open();

@@ -16,25 +16,25 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @Step("Открытие браузера")
+    @Step("Открытие сайта SauceDemo")
     public void open() {
         driver.get(BASE_URL);
     }
 
-    @Step("Логинимся с разными входными данными")
+    @Step("Авторизуемся")
     public void login(User user) {
         driver.findElement(loginInput).sendKeys(user.getLogin());
         driver.findElement(passwordInput).sendKeys(user.getPassword());
         driver.findElement(loginBtn).click();
     }
 
-    @Step("Проверяем проверяется ли сообщение об ошибке")
+    @Step("Проверяем отображение сообщения об ошибке")
     public boolean isErrorDisplayed() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
         return driver.findElement(errorMessage).isDisplayed();
     }
 
-    @Step("Проверяем текст сообщения об ошибке")
+    @Step("Получаем текст сообщения об ошибке")
     public String getErrorMessage() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
         return driver.findElement(errorMessage).getText();

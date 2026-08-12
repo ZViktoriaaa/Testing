@@ -1,7 +1,6 @@
 package tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Epic;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
 import io.qameta.allure.testng.AllureTestNg;
@@ -11,14 +10,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import pages.CartPage;
-import pages.LoginPage;
-import pages.ProductsPage;
+import pages.*;
 import utils.TestListener;
 
 import java.time.Duration;
 
-@Epic("Тестовое окружение")
 @Owner("Zolotareva Viktoria")
 @Listeners({AllureTestNg.class, TestListener.class})
 public class BaseTest {
@@ -26,8 +22,11 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
     CartPage cartPage;
+    CheckoutPage checkoutPage;
+    CheckoutOverviewPage checkoutOverviewPage;
+    CheckoutCompletePage checkoutCompletePage;
 
-    @Step("Открытие браузера")
+    @Step("Настраиваем браузер и тестовое окружение")
     @Parameters({"browser"})
     @BeforeMethod
     public void setup(@Optional("chrome") String browser, ITestContext context) {
@@ -48,6 +47,9 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
+        checkoutPage = new CheckoutPage(driver);
+        checkoutOverviewPage = new CheckoutOverviewPage(driver);
+        checkoutCompletePage = new CheckoutCompletePage(driver);
     }
 
     @Step("Закрываем браузер")

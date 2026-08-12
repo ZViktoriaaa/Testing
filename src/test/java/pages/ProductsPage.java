@@ -16,30 +16,30 @@ public class ProductsPage extends BasePage {
         super(driver);
     }
 
-    @Step("Добавление товара в корзину по имени товара")
+    @Step("Добавляем товар в корзину: {0}")
     public void addToCart(final String goodsName) {
         By goods = By.xpath(String.format(ADD_TO_CART, goodsName));
         driver.findElement(goods).click();
     }
 
-    @Step("Добавление товара в корзину по порядковому номеру")
+    @Step("Добавляем товар в корзину по номеру: {0}")
     public void addToCart(int number) {
         driver.findElements(addToCartBtn).get(number).click();
     }
 
-    @Step("Проверяем число на счётчике корзины")
+    @Step("Получаем значение счетчика корзины")
     public int checkCounterValue() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(counter));
         return Integer.parseInt(driver.findElement(counter).getText());
     }
 
-    @Step("Проверяем цвет счётчика корзины")
+    @Step("Получаем цвет счётчика корзины")
     public String checkCounterColor() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(counter));
         return driver.findElement(counter).getCssValue("background-color");
     }
 
-    @Step("Нажимаем кнопку, чтобы перейти в корзину")
+    @Step("Переходим в корзину")
     public void switchToCart() {
         driver.findElement(cartLink).click();
     }

@@ -17,7 +17,7 @@ public class CartPage extends BasePage {
         super(driver);
     }
 
-    @Step("Получаем список названия товаров")
+    @Step("Получаем список названий товаров")
     public ArrayList<String> getProductsNames() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(productName));
 
@@ -28,5 +28,10 @@ public class CartPage extends BasePage {
             names.add(productBlock.getText());
         }
         return names;
+    }
+
+    @Step("Переходим к оформлению заказа")
+    public void checkout() {
+        driver.findElement(checkoutBtn).click();
     }
 }
