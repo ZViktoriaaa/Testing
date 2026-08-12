@@ -16,7 +16,6 @@ public class ProductsTest extends BaseTest {
     List<String> goodsList =
             List.of(BACKPACK.getDisplayName(), BIKE.getDisplayName(), TSHIRT.getDisplayName());
 
-
     @Story("Добавление товаров в корзину")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Проверка добавления товаров в корзину и корректного отображения счётчика")
